@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  PETUGAS
+  MEMBER
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  kelas     String
+  jurusan   String
+  role      UserRole @default(MEMBER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Student {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  kelas     String
+  jurusan   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Book {
+  id          Int           @id @default(autoincrement())
+  title       String
+  author      String
+  year        Int
+  borrowings  Borrowing[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model Member {
+  id          Int           @id @default(autoincrement())
+  name        String
+  borrowings  Borrowing[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model Borrowing {
+  id              Int       @id @default(autoincrement())
+  memberId        Int
+  member          Member    @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  bookId          Int
+  book            Book      @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  borrowDate      DateTime  @default(now())
+  returnDate      DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+
+  ADMIN:
+- Create Book: Berhasil
+- Delete Book: Berhasil
+
+PETUGAS:
+- Create Book: Berhasil
+- Delete Book: Ditolak (403)
+
+MEMBER:
+- Get Books: Berhasil
+- Create Book: Ditolak (403)
+
+}
