@@ -62,18 +62,4 @@ model Borrowing {
   returnDate      DateTime?
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
-
-
-  ADMIN:
-- Create Book: Berhasil
-- Delete Book: Berhasil
-
-PETUGAS:
-- Create Book: Berhasil
-- Delete Book: Ditolak (403)
-
-MEMBER:
-- Get Books: Berhasil
-- Create Book: Ditolak (403)
-
 }
