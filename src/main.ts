@@ -20,7 +20,7 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('', app, document);
 
   // 2. UBAH BARIS INI: Gunakan process.env.PORT
   const port = process.env.PORT || 3000;
